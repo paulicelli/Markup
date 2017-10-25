@@ -14,7 +14,7 @@ class MarkupRendererTests: XCTestCase {
 		// given
 		let input = "hello there"
 		let expected = NSAttributedString(string: "hello there",
-		                                  attributes: [NSFontAttributeName: baseFont])
+		                                  attributes: [NSAttributedStringKey.font: baseFont])
 
 		// when
 		let result = sut.render(text: input)
@@ -29,9 +29,9 @@ class MarkupRendererTests: XCTestCase {
 		let boldFont = baseFont.boldFont()!
 		let expected = [
 			NSAttributedString(string: "hello ",
-			                   attributes: [NSFontAttributeName: baseFont]),
+			                   attributes: [NSAttributedStringKey.font: baseFont]),
 			NSAttributedString(string: "there",
-			                   attributes: [NSFontAttributeName: boldFont])
+			                   attributes: [NSAttributedStringKey.font: boldFont])
 		].joined()
 
 		// when
@@ -47,9 +47,9 @@ class MarkupRendererTests: XCTestCase {
 		let italicFont = baseFont.italicFont()!
 		let expected = [
 			NSAttributedString(string: "hello ",
-			                   attributes: [NSFontAttributeName: baseFont]),
+			                   attributes: [NSAttributedStringKey.font: baseFont]),
 			NSAttributedString(string: "there",
-			                   attributes: [NSFontAttributeName: italicFont])
+			                   attributes: [NSAttributedStringKey.font: italicFont])
 		].joined()
 
 		// when
@@ -63,13 +63,13 @@ class MarkupRendererTests: XCTestCase {
 		// given
 		let input = "hello ~there~"
 		let strikethroughAttributes: [String: Any] = [
-			NSFontAttributeName: baseFont,
-			NSStrikethroughStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue,
-			NSBaselineOffsetAttributeName: 0
+			NSAttributedStringKey.font.rawValue: baseFont,
+			NSAttributedStringKey.strikethroughStyle.rawValue: NSUnderlineStyle.styleSingle.rawValue,
+			NSAttributedStringKey.baselineOffset.rawValue: 0
 		]
 		let expected = [
 			NSAttributedString(string: "hello ",
-			                   attributes: [NSFontAttributeName: baseFont]),
+			                   attributes: [NSAttributedStringKey.font: baseFont]),
 			NSAttributedString(string: "there",
 			                   attributes: strikethroughAttributes)
 			].joined()
@@ -87,13 +87,13 @@ class MarkupRendererTests: XCTestCase {
 		let boldItalicFont = baseFont.boldFont()!.italicFont()!
 		let expected = [
 			NSAttributedString(string: "hello ",
-			                   attributes: [NSFontAttributeName: baseFont]),
+			                   attributes: [NSAttributedStringKey.font: baseFont]),
 			NSAttributedString(string: "there",
-			                   attributes: [NSFontAttributeName: boldItalicFont]),
+			                   attributes: [NSAttributedStringKey.font: boldItalicFont]),
 			NSAttributedString(string: " ",
-			                   attributes: [NSFontAttributeName: baseFont]),
+			                   attributes: [NSAttributedStringKey.font: baseFont]),
 			NSAttributedString(string: "there",
-			                   attributes: [NSFontAttributeName: boldItalicFont])
+			                   attributes: [NSAttributedStringKey.font: boldItalicFont])
 		].joined()
 
 		// when

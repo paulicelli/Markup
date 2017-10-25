@@ -6,6 +6,8 @@
 	public typealias Font = NSFont
 #endif
 
+let FontAttributeName = NSAttributedStringKey.font
+
 public final class MarkupRenderer {
 	private let baseFont: Font
 
@@ -15,15 +17,15 @@ public final class MarkupRenderer {
 
 	public func render(text: String) -> NSAttributedString {
 		let elements = MarkupParser.parse(text: text)
-		let attributes = [NSFontAttributeName: baseFont]
+        let attributes = [FontAttributeName: baseFont]
 
 		return elements.map { $0.render(withAttributes: attributes) }.joined()
 	}
 }
 
 private extension MarkupNode {
-	func render(withAttributes attributes: [String: Any]) -> NSAttributedString {
-		guard let currentFont = attributes[NSFontAttributeName] as? Font else {
+	func render(withAttributes attributes: [NSAttributedStringKey: Any]) -> NSAttributedString {
+		guard let currentFont = attributes[NSAttributedStringKey.font] as? Font else {
 			fatalError("Missing font attribute in \(attributes)")
 		}
 
@@ -33,18 +35,18 @@ private extension MarkupNode {
 
 		case .strong(let children):
 			var newAttributes = attributes
-			newAttributes[NSFontAttributeName] = currentFont.boldFont()
+			newAttributes[NSAttributedStringKey.font] = currentFont.boldFont()
 			return children.map { $0.render(withAttributes: newAttributes) }.joined()
 
 		case .emphasis(let children):
 			var newAttributes = attributes
-			newAttributes[NSFontAttributeName] = currentFont.italicFont()
+			newAttributes[NSAttributedStringKey.font] = currentFont.italicFont()
 			return children.map { $0.render(withAttributes: newAttributes) }.joined()
 
 		case .delete(let children):
 			var newAttributes = attributes
-			newAttributes[NSStrikethroughStyleAttributeName] = NSUnderlineStyle.styleSingle.rawValue
-			newAttributes[NSBaselineOffsetAttributeName] = 0
+			newAttributes[NSAttributedStringKey.strikethroughStyle] = NSUnderlineStyle.styleSingle.rawValue
+			newAttributes[NSAttributedStringKey.baselineOffset] = 0
 			return children.map { $0.render(withAttributes: newAttributes) }.joined()
 		}
 	}
